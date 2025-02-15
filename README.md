@@ -161,6 +161,11 @@ https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest
 - For real applications, use actual domains instead of `ngrok`.
 - Update `server.js` with the appropriate **consumer_key** and **consumer_secret**.
 
+##  Result
+![Pesapal Gateway](https://github.com/user-attachments/assets/748b31e1-fdaf-4683-b862-a111a00b4645)
+![Pesapal response](https://github.com/user-attachments/assets/e419078e-aa27-4ceb-927a-c48e1f93f0f2)
+
+
 ---
 
 

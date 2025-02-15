@@ -1,50 +1,167 @@
-# Welcome to your Expo app 👋
+# Pesapal Payment Integration
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 🚀 Startup
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+### Run the Expo Project
+```sh
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Start the Node.js Server
+```sh
+node server.js
+```
 
-## Learn more
+### Expose the Server with Ngrok
+```sh
+ngrok http 3001
+```
+This will generate a public URL, e.g.,
+```
+https://randomsubdomain.ngrok-free.app
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🌍 Local or Live Setup
+- For live setups, use your actual domain where applicable.
+- For testing, run:
+  ```sh
+  ngrok http 3001
+  ```
+  This will provide a temporary domain that can be used as the **IPN URL**.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🔗 Setting Up IPN (Instant Payment Notification) URLs
+Use these hard-to-find links to set up IPN URLs (transaction receipts):
+```
+https://randomsubdomain.ngrok-free.app/pesapal/ipn
+```
+On the **Pesapal Merchant Dashboard**, set the **IPN URL** to:
+```
+https://randomsubdomain.ngrok-free.app/pesapal/ipn
+```
 
-## Join the community
+✅ **Ensure that for order requests, the HTTP method is switched to POST.**
 
-Join our community of developers creating universal apps.
+## ⚡ Implementing the IPN Endpoint
+Add this code to the `pesapal/ipn.php` file (or equivalent) to retrieve transaction notifications:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```javascript
+app.post("/pesapal/ipn", async (req, res) => {
+  console.log("IPN received:", req.body);
+
+  // Process payment update from Pesapal
+  res.status(200).send("IPN received successfully");
+});
+```
+
+## 🔑 Pesapal Consumer Keys & Secrets
+Replace these in `server.js` with your actual **sandbox** or **live** keys:
+
+### Sandbox Keys
+#### Kenyan Merchant
+```json
+{
+  "consumer_key": "qkio1BGGYAXTu2JOfm7XSXNruoZsrqEW",
+  "consumer_secret": "osGQ364R49cXKeOYSpaOnT++rHs="
+}
+```
+#### Ugandan Merchant
+```json
+{
+  "consumer_key": "TDpigBOOhs+zAl8cwH2Fl82jJGyD8xev",
+  "consumer_secret": "1KpqkfsMaihIcOlhnBo/gBZ5smw="
+}
+```
+#### Tanzanian Merchant
+```json
+{
+  "consumer_key": "ngW+UEcnDhltUc5fxPfrCD987xMh3Lx8",
+  "consumer_secret": "q27RChYs5UkypdcNYKzuUw460Dg="
+}
+```
+#### Malawian Merchant
+```json
+{
+  "consumer_key": "htMsEFfIVHfhqBL9O0ykz8wuedfFyg1s",
+  "consumer_secret": "DcwkVNIiyijNWn1fdL/pa4K6khc="
+}
+```
+#### Rwandan Merchant
+```json
+{
+  "consumer_key": "wCGzX1fNzvtI5lMR5M4AxvxBmLpFgZzp",
+  "consumer_secret": "uU7R9g2IHn9dkrKDVIfcPppktIo="
+}
+```
+#### Zambian Merchant
+```json
+{
+  "consumer_key": "v988cq7bMB6AjktYo/drFpe6k2r/y7z3",
+  "consumer_secret": "3p0F/KcY8WAi36LntpPf/Ss0MhQ="
+}
+```
+#### Zimbabwean Merchant
+```json
+{
+  "consumer_key": "vknEWEEFeygxAX+C9TPOhvkbkPsj8qXK",
+  "consumer_secret": "MOOP31smKijvusQbNXn/s7m8jC8="
+}
+```
+
+## 🔔 Notification ID
+After setting up the IPN, you will receive a **notification_id** like:
+```
+c3bb813ba750-0983-4fa0-91bc-e32182ca
+```
+Use this ID in your request payload.
+
+## 🛒 Order Request Payload
+When making a transaction request, structure your payload like this:
+
+```json
+{
+  "id": "merchantReference", // Required unique reference
+  "amount": 100,
+  "currency": "KES",
+  "description": "Test transaction",
+  "callback_url": "http://localhost:8081/callback",
+  "redirect_mode": "",
+  "notification_id": "11167d6c-bf32-4130-85bc-dc28b8a0a07d",
+  "branch": "Store Name - HQ",
+  "billing_address": {
+    "email_address": "user@example.com",
+    "phone_number": "0712345678",
+    "country_code": "KE",
+    "first_name": "John",
+    "middle_name": "",
+    "last_name": "Doe",
+    "line_1": "Pesapal Limited",
+    "line_2": "",
+    "city": "",
+    "state": "",
+    "postal_code": "",
+    "zip_code": ""
+  }
+}
+```
+
+## 🌐 API Endpoints
+### Order Request API
+#### Sandbox/Demo
+```
+https://cybqa.pesapal.com/pesapalv3/api/Transactions/SubmitOrderRequest
+```
+#### Production/Live
+```
+https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest
+```
+
+## 📌 Notes
+- Ensure that the IPN URL is set up correctly.
+- Switch to **POST** for order requests.
+- For real applications, use actual domains instead of `ngrok`.
+- Update `server.js` with the appropriate **consumer_key** and **consumer_secret**.
+
+---
+
+🎉 **You're now set up to accept payments with Pesapal!**
+

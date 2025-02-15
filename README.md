@@ -1,6 +1,6 @@
 # Pesapal Payment Integration
 
-## 🚀 Startup
+## Startup
 
 ### Run the Expo Project
 ```sh
@@ -21,7 +21,7 @@ This will generate a public URL, e.g.,
 https://randomsubdomain.ngrok-free.app
 ```
 
-## 🌍 Local or Live Setup
+##  Local or Live Setup
 - For live setups, use your actual domain where applicable.
 - For testing, run:
   ```sh
@@ -29,7 +29,7 @@ https://randomsubdomain.ngrok-free.app
   ```
   This will provide a temporary domain that can be used as the **IPN URL**.
 
-## 🔗 Setting Up IPN (Instant Payment Notification) URLs
+## Setting Up IPN (Instant Payment Notification) URLs
 Use these hard-to-find links to set up IPN URLs (transaction receipts):
 ```
 https://randomsubdomain.ngrok-free.app/pesapal/ipn
@@ -39,9 +39,9 @@ On the **Pesapal Merchant Dashboard**, set the **IPN URL** to:
 https://randomsubdomain.ngrok-free.app/pesapal/ipn
 ```
 
-✅ **Ensure that for order requests, the HTTP method is switched to POST.**
+ **Ensure that for order requests, the HTTP method is switched to POST.**
 
-## ⚡ Implementing the IPN Endpoint
+##  Implementing the IPN Endpoint
 Add this code to the `pesapal/ipn.php` file (or equivalent) to retrieve transaction notifications:
 
 ```javascript
@@ -107,14 +107,14 @@ Replace these in `server.js` with your actual **sandbox** or **live** keys:
 }
 ```
 
-## 🔔 Notification ID
+##  Notification ID
 After setting up the IPN, you will receive a **notification_id** like:
 ```
 c3bb813ba750-0983-4fa0-91bc-e32182ca
 ```
 Use this ID in your request payload.
 
-## 🛒 Order Request Payload
+##  Order Request Payload
 When making a transaction request, structure your payload like this:
 
 ```json
@@ -144,7 +144,7 @@ When making a transaction request, structure your payload like this:
 }
 ```
 
-## 🌐 API Endpoints
+##  API Endpoints
 ### Order Request API
 #### Sandbox/Demo
 ```
@@ -155,7 +155,7 @@ https://cybqa.pesapal.com/pesapalv3/api/Transactions/SubmitOrderRequest
 https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest
 ```
 
-## 📌 Notes
+##  Notes
 - Ensure that the IPN URL is set up correctly.
 - Switch to **POST** for order requests.
 - For real applications, use actual domains instead of `ngrok`.
@@ -163,5 +163,5 @@ https://pay.pesapal.com/v3/api/Transactions/SubmitOrderRequest
 
 ---
 
-🎉 **You're now set up to accept payments with Pesapal!**
+
 

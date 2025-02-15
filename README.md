@@ -53,7 +53,7 @@ app.post("/pesapal/ipn", async (req, res) => {
 });
 ```
 
-## 🔑 Pesapal Consumer Keys & Secrets
+## Pesapal Consumer Keys & Secrets
 Replace these in `server.js` with your actual **sandbox** or **live** keys:
 
 ### Sandbox Keys
